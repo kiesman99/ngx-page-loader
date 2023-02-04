@@ -47,7 +47,7 @@ export class PageResolverHelper {
     this.navigationCancel$
   ).pipe(startWith(false), shareReplay(1));
 
-  constructor() {
+  init() {
     this.isLoading$.subscribe((isLoading) => {
       if (isLoading) { 
         this.pageLoaderStatus.updateStatus('loading');

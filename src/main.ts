@@ -1,9 +1,15 @@
 import { bootstrapApplication } from '@angular/platform-browser';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withRouterConfig } from '@angular/router';
+import { providePageResolver } from 'ngx-page-resolver';
 import { AppComponent } from './app/app.component';
 
 import { routes } from './app/routes';
 
 bootstrapApplication(AppComponent, {
-  providers: [provideRouter(routes)],
+  providers: [
+    provideRouter(routes, withRouterConfig({
+      onSameUrlNavigation: 'reload'
+    })),
+    providePageResolver()
+  ],
 });

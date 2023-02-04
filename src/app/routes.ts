@@ -3,6 +3,7 @@ import { angularResolverInlineRoutes } from "./angular-resolver-inline/routes";
 import { angularResolverRoutes } from "./angular-resolver/routes";
 import { pageResolverLongLoading } from "./page-resolver-long-loading/routes";
 import { pageResolverWithParamsSchemaRoutes } from "./page-resolver-params/routes";
+import { pageResolverReloadRoutes } from "./page-resolver-reload/routes";
 import { pageResolverRoutes } from "./page-resolver/routes";
 
 export const routes: Routes = [
@@ -25,5 +26,9 @@ export const routes: Routes = [
     {
         path: 'page-resolver-long-loading',
         children: pageResolverLongLoading
+    },
+    {
+        path: 'page-resolver-reload',
+        children: pageResolverReloadRoutes
     }
 ];

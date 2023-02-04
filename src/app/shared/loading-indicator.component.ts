@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { injectPageLoaderStatus, PageResolverHelper } from 'ngx-page-resolver';
-import { map, tap } from 'rxjs';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-loading-indicator',
@@ -10,7 +10,7 @@ import { map, tap } from 'rxjs';
   template: `
     <div class="loader-bg">
       <div
-        *ngIf="status$ | async as width"
+        *ngIf="width$ | async as width"
         class="loader"
         style="width: {{ width }}%"
       ></div>
@@ -32,15 +32,8 @@ import { map, tap } from 'rxjs';
   ],
 })
 export class LoadingIndicatorComponent {
-  constructor() {
-    // inject(Router).events.subscribe(e => console.log(e));
-    // injectPageLoaderStatus().subscribe(e => console.log(e));
-    inject(PageResolverHelper).isLoading$.subscribe();
-  }
 
-  lastWidth = 100;
-
-  status$ = injectPageLoaderStatus().pipe(
+  width$ = injectPageLoaderStatus().pipe(
     map((status) => {
       switch (status) {
         case 'loading':
@@ -50,7 +43,6 @@ export class LoadingIndicatorComponent {
         default:
           return 100;
       }
-    }),
-    tap((width) => (this.lastWidth = width))
+    })
   );
 }

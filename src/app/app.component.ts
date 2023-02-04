@@ -14,6 +14,7 @@ import { LoadingIndicatorComponent } from './shared/loading-indicator.component'
       <li><a [routerLink]="['page-resolver', 'profile', '123']">Page Resolver</a></li>
       <li><a [routerLink]="['page-resolver-with-params', 'profile', '123']">Page Resolver with params</a></li>
       <li><a [routerLink]="['page-resolver-long-loading', 'profile', '123']">Page Resolver long loading</a></li>
+      <li><a [routerLink]="['page-resolver-reload', 'posts', '123']">Page Resolver reload</a></li>
     </ul>
     <router-outlet></router-outlet>
   `
