@@ -1,11 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { forkJoin } from 'rxjs';
-import { createPageResolver } from '../cpr/resolver.utils';
 import { PostsService } from '../services/posts.service';
 import { ProfileService } from '../services/profile.service';
 import { z } from 'zod';
 import { PostComponent } from '../shared/post.component';
+import { createPageResolver } from 'ngx-page-resolver';
 
 export const {
   sampleWithParamsSchemaPageResolver,

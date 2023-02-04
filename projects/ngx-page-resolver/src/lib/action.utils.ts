@@ -1,5 +1,4 @@
 import { inject, Injectable } from '@angular/core';
-import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import {
   catchError,
   delay,
@@ -14,11 +13,8 @@ import { PageLoaderStatusService } from './page-loader-status.service';
   providedIn: 'root',
 })
 export class ActionWatcher {
-  snackbar = inject(MatSnackBar);
 
   pageLoaderStatus = inject(PageLoaderStatusService);
-
-  openSnackbar?: MatSnackBarRef<any>;
 
   watchAction<T>(): MonoTypeOperatorFunction<T> {
     return (source) =>
@@ -28,27 +24,19 @@ export class ActionWatcher {
         // finalize(() => this.closeSnackbar())
         tap({
           subscribe: () => {
-            this.openSnackbar = this.snackbar.open('Loading');
             this.pageLoaderStatus.updateStatus('submitting');
             // console.log('@@@','subscribe');
           },
           next: () => {
-            this.closeSnackbar();
             this.pageLoaderStatus.updateStatus('idle');
             // console.log('@@@','next');
           },
           error: () => {
             this.pageLoaderStatus.updateStatus('idle');
-            this.closeSnackbar();
             // console.log('@@@', 'error');
           },
         })
       );
-  }
-
-  private closeSnackbar() {
-    this.openSnackbar?.dismiss();
-    this.openSnackbar = undefined;
   }
 }
 

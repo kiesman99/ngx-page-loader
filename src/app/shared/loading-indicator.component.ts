@@ -1,9 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { injectPageLoaderStatus, PageResolverHelper } from 'ngx-page-resolver';
 import { map, tap } from 'rxjs';
-import { injectPageLoaderStatus } from '../cpr/page-loader-status.service';
-import { PageResolverHelper } from '../cpr/resolver-helper.service';
 
 @Component({
   selector: 'app-loading-indicator',

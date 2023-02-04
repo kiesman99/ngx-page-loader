@@ -1,11 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { forkJoin } from 'rxjs';
-import { createPageResolver, deferred } from '../cpr/resolver.utils';
 import { PostsService } from '../services/posts.service';
 import { ProfileService } from '../services/profile.service';
 import { z } from 'zod';
 import { PostComponent } from '../shared/post.component';
+import { createPageResolver, deferred } from 'ngx-page-resolver';
 
 export const {
   longLoadingPageResolver,
