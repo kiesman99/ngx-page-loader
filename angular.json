@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "page-resolver-demo": {
+    "page-resolver": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/page-resolver-demo",
+            "outputPath": "dist/page-resolver",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -65,10 +65,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "page-resolver-demo:build:production"
+              "browserTarget": "page-resolver:build:production"
             },
             "development": {
-              "browserTarget": "page-resolver-demo:build:development"
+              "browserTarget": "page-resolver:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -76,7 +76,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "page-resolver-demo:build"
+            "browserTarget": "page-resolver:build"
           }
         },
         "test": {
