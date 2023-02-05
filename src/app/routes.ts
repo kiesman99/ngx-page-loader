@@ -30,5 +30,9 @@ export const routes: Routes = [
     {
         path: 'page-resolver-reload',
         children: pageResolverReloadRoutes
-    }
+    },
+    // {
+    //     path: 'page-resolver-nested',
+    //     children: pageResolverNestedRoutes
+    // }
 ];
