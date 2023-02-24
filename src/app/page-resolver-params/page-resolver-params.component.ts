@@ -5,12 +5,12 @@ import { PostsService } from '../services/posts.service';
 import { ProfileService } from '../services/profile.service';
 import { z } from 'zod';
 import { PostComponent } from '../shared/post.component';
-import { createPageResolver } from 'ngx-page-resolver';
+import { createPageResolver1 } from 'ngx-page-resolver';
 
 export const {
   sampleWithParamsSchemaPageResolver,
   injectSampleWithParamsSchemaPageResolverData,
-} = createPageResolver({
+} = createPageResolver1({
   name: 'sampleWithParamsSchema',
   paramsSchema: z.object({
     userId: z.string(),

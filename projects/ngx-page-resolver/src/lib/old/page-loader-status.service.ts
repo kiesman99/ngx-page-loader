@@ -1,18 +1,18 @@
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, debounceTime, distinctUntilChanged } from 'rxjs';
 
-export type PageLoaderState = 'idle' | 'submitting' | 'loading';
+export type PageLoaderStatus = 'idle' | 'submitting' | 'loading';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PageLoaderStatusService {
-  #status$ = new BehaviorSubject<PageLoaderState>('idle');
+  #status$ = new BehaviorSubject<PageLoaderStatus>('idle');
   status$ = this.#status$
     .asObservable()
     .pipe(distinctUntilChanged(), debounceTime(100));
 
-  updateStatus(status: PageLoaderState) {
+  updateStatus(status: PageLoaderStatus) {
     this.#status$.next(status);
   }
 }

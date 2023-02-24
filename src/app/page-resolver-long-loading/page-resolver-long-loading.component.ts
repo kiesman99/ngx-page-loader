@@ -5,12 +5,12 @@ import { PostsService } from '../services/posts.service';
 import { ProfileService } from '../services/profile.service';
 import { z } from 'zod';
 import { PostComponent } from '../shared/post.component';
-import { createPageResolver, deferred } from 'ngx-page-resolver';
+import { createPageResolver1, deferred } from 'ngx-page-resolver';
 
 export const {
   longLoadingPageResolver,
   injectLongLoadingPageResolverData,
-} = createPageResolver({
+} = createPageResolver1({
   name: 'longLoading',
   paramsSchema: z.object({
     userId: z.string(),

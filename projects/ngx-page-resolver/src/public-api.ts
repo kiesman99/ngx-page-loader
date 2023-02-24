@@ -2,10 +2,17 @@
  * Public API Surface of ngx-page-resolver
  */
 
-export * from './lib/action.utils';
-export * from './lib/createPageResolver';
-export * from './lib/deferred';
-export * from './lib/page-loader-status.service';
-export * from './lib/resolver-helper.service';
+export * from './lib/new/createPageLoader';
+export * from './lib/new/page-loader-state.service';
 
-export * from './lib/provide-page-resolver';
+export * from './lib/new/provideNgxPageLoader';
+export * from './lib/new/global-state.service';
+
+// --- old
+
+export * from './lib/old/provide-page-resolver';
+export * from './lib/old/resolver-helper.service';
+export * from './lib/old/page-loader-status.service';
+export { createPageResolver1 } from './lib/old/createPageResolver';
+export * from './lib/old/deferred';
+export * from './lib/old/action.utils';

@@ -46,7 +46,7 @@ type CreatePageResolverOptions<
 
 // TODO: Option to inject parent resolver
 // collect data from parents like with route params
-export const createPageResolver = <
+export const createPageResolver1 = <
   N extends string,
   R extends object,
   PathParams = any,

@@ -3,7 +3,7 @@ import { Component, inject } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import {
-  createPageResolver,
+  createPageResolver1,
   injectActionWatcher,
   injectPageLoaderStatus,
 } from 'ngx-page-resolver';
@@ -17,7 +17,7 @@ export const {
   sampleReloadPageResolver, 
   injectSampleReloadPageResolverData$ 
 } =
-  createPageResolver({
+createPageResolver1({
     name: 'sampleReload',
     paramsSchema: z.object({
       userId: z.string(),
@@ -29,8 +29,11 @@ export const {
 
       const posts$ = postsService.getUserPosts(userId);
 
+      const latePost$ = postsService.getLongLoadingPosts('19');
+
       return forkJoin({
         posts: posts$,
+        latePost$
       });
     },
   });

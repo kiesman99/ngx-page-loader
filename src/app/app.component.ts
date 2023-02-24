@@ -17,6 +17,7 @@ import { LoadingIndicatorComponent } from './shared/loading-indicator.component'
       <li><a [routerLink]="['page-resolver-reload', 'posts', '123']">Page Resolver reload</a></li>
       <!-- <li><a [routerLink]="['page-resolver-nested', 'parent']">Page Resolver Nested - Parent</a></li>
       <li><a [routerLink]="['page-resolver-nested', 'parent', 'child']">Page Resolver Nested - Child</a></li> -->
+      <li><a [routerLink]="['service-resolver']">Service Resolver</a></li>
     </ul>
     <router-outlet></router-outlet>
   `

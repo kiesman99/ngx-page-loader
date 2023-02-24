@@ -5,6 +5,7 @@ import { pageResolverLongLoading } from "./page-resolver-long-loading/routes";
 import { pageResolverWithParamsSchemaRoutes } from "./page-resolver-params/routes";
 import { pageResolverReloadRoutes } from "./page-resolver-reload/routes";
 import { pageResolverRoutes } from "./page-resolver/routes";
+import { serviceResolverRoutes } from "./service-resolver/routes";
 
 export const routes: Routes = [
     {
@@ -35,4 +36,8 @@ export const routes: Routes = [
     //     path: 'page-resolver-nested',
     //     children: pageResolverNestedRoutes
     // }
+    {
+        path: 'service-resolver',
+        children: serviceResolverRoutes
+    }
 ];
