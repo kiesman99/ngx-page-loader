@@ -8,6 +8,8 @@ export * from './lib/new/page-loader-state.service';
 export * from './lib/new/provideNgxPageLoader';
 export * from './lib/new/global-state.service';
 
+export * from './lib/new/defferedHelper';
+
 // --- old
 
 export * from './lib/old/provide-page-resolver';

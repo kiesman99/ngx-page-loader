@@ -4,7 +4,7 @@ import { PageLoaderStateService } from "./page-loader-state.service";
 
 export const provideNgxPageLoader = () => {
     return makeEnvironmentProviders([
+        GlobalStateService,
         PageLoaderStateService,
-        GlobalStateService
     ]);
 };

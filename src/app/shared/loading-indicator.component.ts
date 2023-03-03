@@ -1,7 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { injectPageLoaderStatus, PageResolverHelper } from 'ngx-page-resolver';
-import { injectGlobalState } from 'projects/ngx-page-resolver/src/public-api';
+import {
+  injectPageLoaderState,
+  PageResolverHelper,
+  injectGlobalState,
+} from 'ngx-page-resolver';
 import { map } from 'rxjs';
 
 @Component({
@@ -33,7 +36,6 @@ import { map } from 'rxjs';
   ],
 })
 export class LoadingIndicatorComponent {
-
   width$ = injectGlobalState().state$.pipe(
     map((status) => {
       switch (status) {

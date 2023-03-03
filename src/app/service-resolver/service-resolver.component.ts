@@ -4,39 +4,42 @@ import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { LetModule } from '@ngrx/component';
 import {
+  wrapDeferredInfo,
   createPageLoader,
   injectPageLoaderState,
-} from 'projects/ngx-page-resolver/src/public-api';
-import { interval, repeat, take } from 'rxjs';
+} from 'ngx-page-resolver';
+import { delay, repeat, take } from 'rxjs';
 import { z } from 'zod';
 import { Todo } from './models';
 
-const { injectPageLoader, providePageLoader, injectQueryParams, injectDeferredData } =
-  createPageLoader({
-    queryParamsSchema: z.object({
-      id: z.coerce.number().optional(),
-    }),
-    loader: ({ injector, queryParams }) => {
-      const http = injector.get(HttpClient);
+const {
+  injectPageLoader,
+  providePageLoader,
+  injectQueryParams,
+  injectDeferredData,
+} = createPageLoader({
+  queryParamsSchema: z.object({
+    id: z.coerce.number().optional(),
+  }),
+  loader: ({ injector, queryParams }) => {
+    const http = injector.get(HttpClient);
 
-      const id = queryParams.id ?? Math.floor(Math.random() * 100) + 1;
+    const id = queryParams.id ?? Math.floor(Math.random() * 100) + 1;
 
-      if (id >= 70) {
-        throw new Error(`something really bad happened ${id}`);
-      }
+    if (id >= 70) {
+      throw new Error(`something really bad happened ${id}`);
+    }
 
-      const lateTodo$ = http.get<Todo>(
-        `https://jsonplaceholder.typicode.com/todos/19`
-      );
+    const lateTodo$ = http
+      .get<Todo>(`https://jsonplaceholder.typicode.com/todos/19`)
+      .pipe(delay(5000));
 
-      return {
-        todo: http.get<Todo>(
-          `https://jsonplaceholder.typicode.com/todos/${id}`
-        ),
-        lateTodo$
-      };
-    },
-  });
+    return {
+      todo: http.get<Todo>(`https://jsonplaceholder.typicode.com/todos/${id}`),
+      lateTodo$,
+    };
+  },
+});
 
 @Component({
   selector: 'app-service-resolver',
@@ -47,15 +50,17 @@ const { injectPageLoader, providePageLoader, injectQueryParams, injectDeferredDa
       <h1>Service Resolver</h1>
       <details>
         <summary>Json of loaderData</summary>
-        <pre>{{data | json}}</pre>
+        <pre>{{ data | json }}</pre>
       </details>
       <p>State: {{ data.state }}</p>
-      <button (click)="pageLoader.invalidate()" *ngIf="!data.error">Invalidate</button>
-      <br>
+      <button (click)="pageLoader.invalidate()" *ngIf="!data.error">
+        Invalidate
+      </button>
+      <br />
       <button (click)="setRandomId()">Set Random Query-Param ID</button>
-      <br>
+      <br />
       <button (click)="clearQueryParamId()">Clear id from query params</button>
-      <br>
+      <br />
       <button (click)="submit()">Submit</button>
 
       <hr />
@@ -76,12 +81,32 @@ const { injectPageLoader, providePageLoader, injectQueryParams, injectDeferredDa
         <p>{{ data.data.todo.body }}</p>
       </ng-container>
     </ng-container>
+
+    <div class="longLoading">
+      <h2>Late Data</h2>
+      <ng-container *ngIf="latePost$ | async as latePostData">
+        <details>
+          <summary>Json of latePostData</summary>
+          <pre>{{ latePostData | json }}</pre>
+        </details>
+        <p *ngIf="latePostData.isLoading">Loading...</p>
+        <p *ngIf="latePostData.hasError">{{ latePostData.error }}</p>
+        <pre *ngIf="latePostData.isSuccess">{{ latePostData.data | json }}</pre>
+      </ng-container>
+    </div>
   `,
   styles: [
     `
       .warning {
         padding: 10px;
         border: 2px solid red;
+        border-radius: 15px;
+      }
+
+      .longLoading {
+        margin-top: 10px;
+        padding: 10px;
+        border: 2px solid purple;
         border-radius: 15px;
       }
     `,
@@ -92,6 +117,8 @@ export class ServiceResolverComponent {
   pageLoader = injectPageLoader();
   state$ = injectPageLoaderState();
   deferred = injectDeferredData();
+
+  latePost$ = wrapDeferredInfo(this.deferred.lateTodo$);
 
   queryParams$ = injectQueryParams();
 
@@ -106,18 +133,17 @@ export class ServiceResolverComponent {
 
   clearQueryParamId() {
     this.router.navigate([], {
-      queryParams: {}
-    })
+      queryParams: {},
+    });
   }
 
   submit() {
     const { queryParams, data } = this.pageLoader.snapshot;
 
-    this.deferred.lateTodo$.pipe(
-      repeat({ delay: 1000 }),
-      take(1)
-    ).subscribe(data => console.log(data));
+    this.deferred.lateTodo$
+      .pipe(repeat({ delay: 1000 }), take(1))
+      .subscribe((data) => console.log(data));
 
-    console.log('id from queryparam', queryParams.id); 
+    console.log('id from queryparam', queryParams.id);
   }
 }

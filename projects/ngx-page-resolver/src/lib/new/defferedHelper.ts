@@ -1,4 +1,4 @@
-import { Observable, ObservableInput, ObservedValueOf, of } from 'rxjs';
+import { catchError, map, merge, MonoTypeOperatorFunction, Observable, ObservableInput, ObservedValueOf, of, startWith, switchMap, tap } from 'rxjs';
 
 const test = {
   one: '',
@@ -18,24 +18,59 @@ export type Deferred<T, D = Pick<T, DeferredKeys<T>>> = {
   [P in keyof D]: D[P] extends Observable<any> ? D[P] : Observable<D[P]>;
 };
 
-type Test = NonDeferred<typeof test>;
-type TestKeys = NonDeferredKeys<typeof test>;
-type TestDeferredKeys = DeferredKeys<typeof test>;
-type TestDeferred = Deferred<typeof test>;
+interface DeferredData<T> {
+  data?: T;
+  state: 'loading' | 'error' | 'idle';
+  isLoading: boolean;
+  isSuccess: boolean;
+  hasError: boolean;
+  error?: any;
+}
 
-type ReturnType = Record<string, Observable<any>>;
+function initialDeferredData<T>(): DeferredData<T> {
+  return {
+    state: 'loading',
+    isLoading: true,
+    isSuccess: false,
+    hasError: false
+  };
+}
 
-const DDD: ReturnType = {
-  one: of(''),
+function laodingDeferredData<T>(): DeferredData<T> {
+  return {
+    state: 'loading',
+    isLoading: true,
+    isSuccess: false,
+    hasError: false
+  }
 };
 
-const sample = <A extends ReturnType>(fn: () => A): A => {
-  return fn();
-};
+function newDeferredValue<T>(data: T): DeferredData<T> {
+  return {
+    state: 'idle',
+    data: data,
+    isLoading: false,
+    isSuccess: true,
+    hasError: false
+  };
+}
 
-const see = sample(() => {
-  return { dawd: of(''), doesItWork$: of('awda'), anotherOne: of('nope') };
-});
+function erroredDeferred<T>(error: unknown): DeferredData<T> {
+  return {
+    error,
+    state: 'error',
+    isLoading: false,
+    isSuccess: false,
+    hasError: true
+  };
+}
 
-
-type DOfSee = ObservedValueOf<Deferred<typeof see>['doesItWork$']>
+export function wrapDeferredInfo<T>(source: Observable<T>): Observable<DeferredData<T>> {
+  return merge(
+    of(initialDeferredData<T>()),
+    source.pipe(
+      map(value => newDeferredValue(value)),
+      catchError(err => of(erroredDeferred<T>(err)))
+    )
+  )
+} 
