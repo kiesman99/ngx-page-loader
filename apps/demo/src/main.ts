@@ -1,7 +1,19 @@
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { provideHttpClient } from '@angular/common/http';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { provideRouter, withRouterConfig } from '@angular/router';
+import { provideNgxPageLoader } from 'ngx-page-loader';
+import { AppComponent } from './app/app.component';
+import { routes } from './app/routes';
 
-import { AppModule } from './app/app.module';
-
-platformBrowserDynamic()
-  .bootstrapModule(AppModule)
-  .catch((err) => console.error(err));
+bootstrapApplication(AppComponent, {
+  providers: [
+    provideHttpClient(),
+    provideRouter(
+      routes,
+      withRouterConfig({
+        onSameUrlNavigation: 'reload',
+      })
+    ),
+    provideNgxPageLoader(),
+  ],
+});

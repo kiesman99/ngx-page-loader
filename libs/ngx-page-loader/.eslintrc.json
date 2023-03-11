@@ -17,7 +17,7 @@
           "error",
           {
             "type": "element",
-            "prefix": "app",
+            "prefix": "ngx-page-loader",
             "style": "kebab-case"
           }
         ]
