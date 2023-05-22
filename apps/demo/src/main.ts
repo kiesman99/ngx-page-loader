@@ -1,19 +1,7 @@
-import { provideHttpClient } from '@angular/common/http';
-import { bootstrapApplication } from '@angular/platform-browser';
-import { provideRouter, withRouterConfig } from '@angular/router';
-import { provideNgxPageLoader } from 'ngx-page-loader';
-import { AppComponent } from './app/app.component';
-import { routes } from './app/routes';
+import { appConfig } from './app/app.config';
 
-bootstrapApplication(AppComponent, {
-  providers: [
-    provideHttpClient(),
-    provideRouter(
-      routes,
-      withRouterConfig({
-        onSameUrlNavigation: 'reload',
-      })
-    ),
-    provideNgxPageLoader(),
-  ],
-});
+import { bootstrapApplication } from '@angular/platform-browser';
+
+import { AppComponent } from './app/app.component';
+
+bootstrapApplication(AppComponent, appConfig);
